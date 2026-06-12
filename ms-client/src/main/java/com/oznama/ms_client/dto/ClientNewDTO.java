@@ -3,11 +3,7 @@ package com.oznama.ms_client.dto;
 import com.oznama.ms_client.constants.ClientType;
 import jakarta.validation.constraints.*;
 
-import java.util.UUID;
-
-public record ClientDTO(
-        @NotNull(message = "Required id")
-        String id,
+public record ClientNewDTO(
         @NotBlank(message = "Required name")
         @Size(min = 2, max = 50, message = "Name must have length of {min} to {max}")
         @Pattern(regexp = "^[a-zA-Z\\s'-]+$", message = "Invalid name")
@@ -18,12 +14,7 @@ public record ClientDTO(
         @NotNull(message = "Required age")
         @Min(value = 18, message = "Must be at least {value}")
         @Max(value = 70, message = "Must be less than {value}")
-        int edad,
+        Integer edad,
         ClientType clientType
 ) {
-    public ClientDTO {
-        if (id == null) {
-            id = UUID.randomUUID().toString();
-        }
-    }
 }
