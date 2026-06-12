@@ -22,9 +22,9 @@ public class GlobalControlAdvice {
      * @param e Exception
      * @return Response Entity con mensaje personalizado de excepcion
      */
-    @ExceptionHandler(ClientException.class)
-    public ResponseEntity<GenericResponse> handleMessageNotReadableException(ClientException e) {
-        log.error("Catching message client exception");
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<GenericResponse> handleMessageNotReadableException(CustomException e) {
+        log.error("Catching message custom exception");
         return ResponseEntity.badRequest().body(new GenericResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
     }
 

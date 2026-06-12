@@ -1,10 +1,10 @@
 package com.oznama.ms_client.service.impl;
 
-import com.oznama.ms_client.cache.ClientsCache;
+import com.oznama.ms_client.cache.EntityCache;
 import com.oznama.ms_client.constants.ClientType;
 import com.oznama.ms_client.dto.ClientDTO;
 import com.oznama.ms_client.dto.ClientNewDTO;
-import com.oznama.ms_client.exception.ClientException;
+import com.oznama.ms_client.exception.CustomException;
 import com.oznama.ms_client.mapper.ClientMapper;
 import com.oznama.ms_client.service.ClientService;
 import lombok.AllArgsConstructor;
@@ -24,34 +24,34 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Carga los clientes y crea una lista DTO
      * @return Lista DTO de clientes
-     * @throws ClientException en caso de algun error al cargar los clientes
+     * @throws CustomException en caso de algun error al cargar los clientes
      */
     @Override
-    public List<ClientDTO> findAll() throws ClientException {
+    public List<ClientDTO> findAll() throws CustomException {
         log.debug("Getting all clients");
         try {
-            return ClientsCache.getClients().stream()
+            return EntityCache.getClients().stream()
                     .map(clientMapper::toClientDTO)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             String msgError = "Error to load clients";
             log.error(msgError, e);
-            throw new ClientException(msgError);
+            throw new CustomException(msgError);
         }
     }
 
     /**
      * Servicio para agregar un cliente a la lista
      * @param clientDTO con los datos agregar
-     * @throws ClientException en caso de que el cliente no se agregue al cache
+     * @throws CustomException en caso de que el cliente no se agregue al cache
      */
     @Override
-    public ClientDTO save(ClientNewDTO clientDTO) throws ClientException {
+    public ClientDTO save(ClientNewDTO clientDTO) throws CustomException {
         log.debug("Creating client {}", clientDTO);
         ClientDTO newClientDTO = clientMapper.toClientDTO(clientDTO);
-        if (!ClientsCache.add(clientMapper.toClientEntity(newClientDTO))) {
+        if (!EntityCache.add(clientMapper.toClientEntity(newClientDTO))) {
             String msgError = String.format("Client %s not created", newClientDTO.id());
-            throw new ClientException(msgError);
+            throw new CustomException(msgError);
         }
         if ( isClientVIP(clientDTO.clientType()) ) {
             log.info("Cliente VIP tiene descuento de prestamos");
@@ -62,28 +62,31 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Servicio para actualizar un cliente de la lista
      * @param clientDTO con los datos actualizar
-     * @throws ClientException en caso de que el cliente no se actualice en el cache
+     * @throws CustomException en caso de que el cliente no se actualice en el cache
      */
     @Override
-    public void update(ClientDTO clientDTO) throws ClientException {
+    public void update(ClientDTO clientDTO) throws CustomException {
         log.debug("Updating client with id: {}", clientDTO.id());
-        if (!ClientsCache.update(clientMapper.toClientEntity(clientDTO))) {
+        if (!EntityCache.update(clientMapper.toClientEntity(clientDTO))) {
             String msgError = String.format("Client %s not updated", clientDTO.id());
-            throw new ClientException(msgError);
+            throw new CustomException(msgError);
         }
     }
 
     /**
      * Servicio para eliminar un cliente de la lista
      * @param id del cliente a eliminar
-     * @throws ClientException en caso de que el cliente no se elimine en el cache
+     * @throws CustomException en caso de que el cliente no se elimine en el cache
      */
     @Override
-    public void delete(String id) throws ClientException {
+    public void delete(String id) throws CustomException {
         log.debug("Deleting client with id: {}", id);
-        if (!ClientsCache.delete(id)) {
+        if (!EntityCache.delete(EntityCache.getClients().stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new CustomException("Client not found")))) {
             String msgError = String.format("Client %s not deleted", id);
-            throw new ClientException(msgError);
+            throw new CustomException(msgError);
         }
     }
 

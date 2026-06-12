@@ -28,13 +28,13 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientDTO> save(@Valid @RequestBody ClientNewDTO clientDTO) {
-        log.info("Saving client {}", clientDTO);
+        log.info("Saving client");
         return ResponseEntity.status(HttpStatus.CREATED).body(clientService.save(clientDTO));
     }
 
     @PutMapping
     public ResponseEntity<ClientDTO> update(@Valid @RequestBody ClientDTO clientDTO) {
-        log.info("Updating client {}", clientDTO);
+        log.info("Updating client");
         clientService.update(clientDTO);
         return ResponseEntity.ok(clientDTO);
     }
