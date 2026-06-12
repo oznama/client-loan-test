@@ -7,3 +7,4 @@
 
 [API Doc](http://localhost:8080/client-loan/api/v1/v3/api-docs)
 
+[API Doc Yaml](http://localhost:8080/client-loan/api/v1/v3/api-docs.yaml)
