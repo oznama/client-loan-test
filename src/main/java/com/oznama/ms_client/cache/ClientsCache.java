@@ -1,6 +1,6 @@
 package com.oznama.ms_client.cache;
 
-import com.oznama.ms_client.ClientEntity;
+import com.oznama.ms_client.model.ClientEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -47,9 +47,8 @@ public class ClientsCache {
                     .filter(c -> c.getId().equals(client.getId()))
                     .findFirst()
                     .ifPresent(c -> {
-                        log.debug("Updating client {} to {}", c, client);
                         c.setName(client.getName());
-                        c.setType(client.getType());
+                        c.setAge(client.getAge());
                         c.setEmail(client.getEmail());
                         c.setType(client.getType());
                     });

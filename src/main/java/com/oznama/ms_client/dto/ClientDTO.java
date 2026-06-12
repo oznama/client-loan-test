@@ -18,7 +18,7 @@ public record ClientDTO(
         @NotNull(message = "Required age")
         @Min(value = 18, message = "Must be at least {value}")
         @Max(value = 70, message = "Must be less than {value}")
-        int edad,
+        Integer age,
         ClientType clientType
 ) {
     public ClientDTO {

@@ -1,9 +1,8 @@
 package com.oznama.ms_client.mapper;
 
-import com.oznama.ms_client.ClientEntity;
+import com.oznama.ms_client.model.ClientEntity;
 import com.oznama.ms_client.dto.ClientDTO;
 import com.oznama.ms_client.dto.ClientNewDTO;
-import com.oznama.ms_client.exception.ClientException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ public class ClientMapper {
                 null,
                 clientDTO.name(),
                 clientDTO.email(),
-                clientDTO.edad(),
+                clientDTO.age(),
                 clientDTO.clientType());
     }
 
@@ -32,7 +31,7 @@ public class ClientMapper {
                 clientEntity.getId(),
                 clientEntity.getName(),
                 clientEntity.getEmail(),
-                clientEntity.getEdad(),
+                clientEntity.getAge(),
                 clientEntity.getType());
     }
 
@@ -47,7 +46,7 @@ public class ClientMapper {
                 .id(clientDTO.id())
                 .name(clientDTO.name())
                 .email(clientDTO.email())
-                .edad(clientDTO.edad())
+                .age(clientDTO.age())
                 .type(clientDTO.clientType())
                 .build();
     }

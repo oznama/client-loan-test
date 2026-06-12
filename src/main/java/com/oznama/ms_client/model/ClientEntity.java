@@ -1,4 +1,4 @@
-package com.oznama.ms_client;
+package com.oznama.ms_client.model;
 
 import com.oznama.ms_client.constants.ClientType;
 import lombok.Builder;
@@ -14,6 +14,6 @@ public class ClientEntity {
     private String id;
     private String name;
     private String email;
-    private int edad;
+    private Integer age;
     private ClientType type;
 }
